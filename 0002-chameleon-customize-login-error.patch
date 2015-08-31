@@ -1,0 +1,19 @@
+--- a/openstack_auth/backend.py	2015-08-31 15:12:52.205400588 +0000
++++ b/openstack_auth/backend.py	2015-08-31 15:13:42.817692783 +0000
+@@ -16,6 +16,7 @@
+ import logging
+ 
+ from django.conf import settings
++from django.utils.safestring import mark_safe
+ from django.utils.translation import ugettext_lazy as _
+ 
+ from keystoneclient import exceptions as keystone_exceptions
+@@ -99,7 +100,7 @@
+         except (keystone_exceptions.Unauthorized,
+                 keystone_exceptions.Forbidden,
+                 keystone_exceptions.NotFound) as exc:
+-            msg = _('Invalid user name or password.')
++            msg = _(mark_safe('Authenticaton refused.<br />Please see <a href="https://www.chameleoncloud.org/docs/user-faq/">our User FAQ</a> for help.'))
+             LOG.debug(str(exc))
+             raise exceptions.KeystoneAuthException(msg)
+         except (keystone_exceptions.ClientException,
